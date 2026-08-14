@@ -52,9 +52,13 @@ def add_scratch(plate):
     scratch.name = "Defect_scratch"
     for spline in scratch.data.splines:
         for point in spline.bezier_points:
-            point.co = (random.uniform(-0.8, 0.8), random.uniform(-0.8, 0.8), 0.001, 1.0)
-            point.handle_left = (point.co[0]-0.1, point.co[1], 0.001, 1.0)
-            point.handle_right = (point.co[0]+0.1, point.co[1], 0.001, 1.0)
+            # Blender 4.2: co is 3D (x, y, z) - NOT 4D!
+            x = random.uniform(-0.8, 0.8)
+            y = random.uniform(-0.8, 0.8)
+            z = 0.001
+            point.co = (x, y, z)
+            point.handle_left = (x - 0.1, y, z)
+            point.handle_right = (x + 0.1, y, z)
     scratch.data.bevel_depth = random.uniform(0.0005, 0.003)
     scratch.data.bevel_resolution = 2
     scratch.rotation_euler = (0, 0, random.uniform(0, 6.28))
